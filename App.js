@@ -12,7 +12,7 @@ export default function App() {
     }
 
     const submitGoalHandler = () => {
-        setCourseObjectives(currentObjectives => [...currentObjectives, enteredGoal]);
+        setCourseObjectives(currentObjectives => [...currentObjectives, { key: Math.random().toString(), value: enteredGoal }]);
     }
 
   	return (
@@ -25,12 +25,17 @@ export default function App() {
                     onChangeText={ goalInputHandler }
                     value={ enteredGoal }
                 />
-                <Button title="add" onPress={submitGoalHandler}></Button>        		
+                <Button title="add" onPress={ submitGoalHandler }></Button>        		
             </View>
 
-            <ScrollView style={{ height: 200 }}>
-                { courseObjectives.map((objective) => <View key={objective} style={ styles.itemsList }><Text>{ objective }</Text></View> ) }
-            </ScrollView>
+            <FlatList
+                data={ courseObjectives }
+                renderItem={ itemData => (
+                    <View style={ styles.itemsList }>
+                        <Text> { itemData.item.value } </Text>
+                    </View>
+                )}
+            />
 
       	</View>
   	);
